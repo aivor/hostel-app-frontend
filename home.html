@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>FrontGate-Hostel </title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fa fa-building" aria-hidden="true"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">FrontGate Hostel </div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Rooms
+      </div>
+      <!-- triggering add room modal -->
+       <button type="button" class="btn btn-primary btn-sm" 
+          style="width: 100%;" data-toggle="modal" 
+          data-target="#modal1"><i class="fas fa-plus-square"></i> Add Room
+          
+        </button>
+        
+        
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Registration
+      </div>
+
+       <!-- Button to trigger register modal -->
+       <button type="button" class="btn btn-primary btn-sm"
+       data-toggle="modal" data-target="#registerModal">
+       <i class="fa fa-user-plus" aria-hidden="true"></i> 
+       Add Student
+      </button>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- add-room modal -->
+      <div class="modal hide fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add New Room</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+              <form class="form" id="addForm">
+                <div class="form-group">
+                  <input required type="text" class="form-control form-control-user"
+                   id="room_number"  placeholder="Enter Room Number">
+                </div>
+                <div class="form-group">
+                  <input required type="text" class="form-control form-control-user"
+                   id="furniture" placeholder="Furniture">
+                </div>
+                <div class="form-group">
+                  <input required type="number" class="form-control form-control-user"
+                   id="capacity" placeholder="Capacity">
+                </div>
+                <div class="form-group">
+                  <input required type="number" class="form-control form-control-user"
+                   id="price" placeholder="Price of room.">
+                </div>
+                <button class="btn btn-primary btn-user btn-block" id="submit1">
+                  Add Room
+                </button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- end -->
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+  <!-- add-room modal -->
+
+  <!-- see room details modal -->
+  <div class="modal hide fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Room Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title" id="myModalLabel"></h4>
+        </div>
+        <div class="modal-body" id="mbody">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Navbar -->
+
+          <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- edit occupant  -->
+            <div class="modal fade" id="editOccupantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Occupant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <!-- modal body -->
+                  <div class="modal-body">
+                    <form class="form" id="editOccupantRoomForm">
+                      <div class="form-group">
+                        <input required type="text" class="form-control form-control-user"
+                         id="efirst_name" aria-describedby="emailHelp" placeholder="Enter First name...">
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-user"
+                         id="emiddle_name" placeholder="Enter Middle name if any.">
+                      </div>
+                      <div class="form-group">
+                        <input required type="text" class="form-control form-control-user"
+                         id="eLast_name" placeholder="Enter Last name.">
+                      </div>
+                      <div class="form-group">
+                        <input required type="email" class="form-control form-control-user"
+                         id="eemail" placeholder="Enter Email address.">
+                      </div>
+                      <div class="form-group">
+                        <input required type="number" class="form-control form-control-user"
+                         id="ephone" placeholder="Enter Telephone number.">
+                      </div>
+                      <div class="form-group">
+                        <input required type="number" class="form-control form-control-user"
+                         id="eyear" placeholder="Enter Year.">
+                      </div>
+                      <div class="form-group">
+                       <label>Enter date of birth</label> 
+                        <input required type="date" class="form-control form-control-user"
+                         id="edate_of_birth">
+                      </div>
+                      <div class="form-group">
+                         <label>Select Room</label>
+                         <select required class="form-control form-control-user" id="room1" name="room">
+                          
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <input required type="number" class="form-control form-control-user"
+                         id="eamount" placeholder="Enter Amount Paid (GHC).">
+                         
+                      </div>
+                      <button class="btn btn-primary btn-user btn-block" id="submit4">
+                        Save
+                      </button>
+                      
+                    </form>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                <img class="img-profile rounded-circle" src="https://bit.ly/3bupRJx">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">
+            Rooms
+            
+          </h1>
+          <!-- edit room modal -->
+          <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit Room Details</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="form" id="editRoomForm">
+                    <div class="form-group">
+                      <input required type="text" class="form-control form-control-user"
+                       id="eroom_number"  placeholder="Enter Room Number">
+                    </div>
+                    <div class="form-group">
+                      <input required type="text" class="form-control form-control-user"
+                       id="efurniture" placeholder="Furniture">
+                    </div>
+                    <div class="form-group">
+                      <input required type="number" class="form-control form-control-user"
+                       id="ecapacity" placeholder="Capacity">
+                    </div>
+                    <div class="form-group">
+                      <input required type="number" class="form-control form-control-user"
+                       id="eprice" placeholder="Price of room.">
+                    </div>
+                    <button class="btn btn-primary btn-user btn-block" id="submit2">
+                      Update Room Details
+                    </button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row" id="output">
+            
+          </div>
+          <div>
+            <hr class="sidebar-divider my-0">
+          </div>
+          
+            <h1 class="h3 mb-4 text-gray-800">Students</h1>
+          <div class="row">
+            </div>
+            <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-body ">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th>Date of Birth</th>
+                      <th>Year</th>
+                      <th>Amount(GHC)</th>
+                      <th>Room</th>
+                      <th>Update</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th>Date of Birth</th>
+                      <th>Year</th>
+                      <th>Amount(GHC)</th>
+                      <th>Room</th>
+                      <th>Update</th>
+                    </tr>
+                  </tfoot>
+                  <tbody id="occupant">
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+         
+          
+          <!-- button to trigger add-room modal -->
+         
+        </div>
+        
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Ivor 2020</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html" onclick="logout()">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- register student Modal -->
+
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Register Student</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- modal body -->
+      <div class="modal-body">
+        <form class="form" id="myForm">
+          <div class="form-group">
+            <input required type="text" class="form-control form-control-user"
+             id="first_name" aria-describedby="emailHelp" placeholder="Enter First name...">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control form-control-user"
+             id="middle_name" placeholder="Enter Middle name if any.">
+          </div>
+          <div class="form-group">
+            <input required type="text" class="form-control form-control-user"
+             id="Last_name" placeholder="Enter Last name.">
+          </div>
+          <div class="form-group">
+            <input required type="email" class="form-control form-control-user"
+             id="email" placeholder="Enter Email address.">
+          </div>
+          <div class="form-group">
+            <input required type="number" class="form-control form-control-user"
+             id="phone" placeholder="Enter Telephone number.">
+          </div>
+          <div class="form-group">
+            <input required type="number" class="form-control form-control-user"
+             id="year" placeholder="Enter Year.">
+          </div>
+          <div class="form-group">
+           <label>Enter date of birth</label> 
+            <input required type="date" class="form-control form-control-user"
+             id="date_of_birth">
+          </div>
+          <div class="form-group">
+            
+             <label>Select Room</label>
+             <select required class="form-control form-control-user" id="room" name="room">
+              
+            </select>
+          </div>
+          <div class="form-group">
+            <input required type="number" class="form-control form-control-user"
+             id="amount" placeholder="Enter Amount Paid (GHC).">
+             
+          </div>
+          <button class="btn btn-primary btn-user btn-block" id="submit3">
+            Register
+          </button>
+          
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/tables.js"></script>
+  <script src="js/home.js"></script>
+
+
+</body>
+
+</html>
